@@ -1,0 +1,51 @@
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+contract CampaignFactory{
+
+    address[] public deployedCampaigns;
+
+    function createCampaign(
+        string memory _title,
+        uint _requiredAmount, 
+        string memory _category,
+        string memory _description,
+        string memory _imgURI        
+    ) public{
+        Campaign newCampaign;
+        newCampaign = new Campaign(_title, _requiredAmount, _category, _description, _imgURI, msg.sender, false);
+        
+        deployedCampaigns.push(address(newCampaign));
+    }
+}
+
+
+contract Campaign{
+    string public title;
+    uint public requiredAmount; 
+    string public category;
+    string public description;
+    string public imgURI; 
+    address payable public owner;
+    bool public activated;
+
+    constructor(
+        string memory _title,
+        uint _requiredAmount, 
+        string memory _category,
+        string memory _description,
+        string memory _imgURI, 
+        address _owner,
+        bool _activated
+    ){
+        title = _title;
+        requiredAmount = _requiredAmount;
+        category = _category;
+        description = _description;
+        imgURI = _imgURI;
+        owner = payable(_owner);
+        activated = _activated;
+    }
+    
+}
